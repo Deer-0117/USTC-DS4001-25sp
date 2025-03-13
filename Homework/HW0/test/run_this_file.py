@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import numpy as np
+import os
 
 def process_file_to_array(filename):
     # 打开文件并按行读取
@@ -12,7 +13,7 @@ def process_file_to_array(filename):
     return arr
 
 def main():
-    filename = "data.txt"
+    filename = r"E:\USTC-DS4001-25sp\Homework\HW0\test\data.txt" #"data.txt"
     arr = process_file_to_array(filename)
     print(arr)
 
