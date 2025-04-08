@@ -149,7 +149,7 @@ if __name__ == "__main__":
         help="Path to visualize (.json), path should correspond to some map file",
     )
     args = parser.parse_args()
-    
+
     # Create cityMap and populate any relevant landmarks
     USTCMapName = args.map_file.split("/")[-1].split("_")[0]
     USTCCityMap = readMap(args.map_file)
