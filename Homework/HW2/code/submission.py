@@ -79,7 +79,9 @@ class Gobang(UtilGobang):
         """
 
         # BEGIN_YOUR_CODE (our solution is 3 line of code, but don't worry if you deviate from this)
-
+        next_state = self.board.copy()  # 或者使用 np.copy(self.board)
+        piece, x, y = action
+        next_state[x][y] = piece
         # END_YOUR_CODE
 
         if noise is not None:
@@ -95,7 +97,8 @@ class Gobang(UtilGobang):
         """
         if self.action_space:
             # BEGIN_YOUR_CODE (our solution is 2 line of code, but don't worry if you deviate from this)
-
+            x, y = random.choice(self.action_space)
+            self.action_space.remove((x, y))
             # END_YOUR_CODE
             return 2, x, y
         else:
@@ -115,7 +118,10 @@ class Gobang(UtilGobang):
         """
 
         # BEGIN_YOUR_CODE (our solution is 4 line of code, but don't worry if you deviate from this)
-
+        black_1, white_1 = self.count_max_connections(self.board)
+        next_state = self.get_next_state(action, noise)
+        black_2, white_2 = self.count_max_connections(next_state)
+        reward = (black_2 - black_1) - (white_2 - white_1)
         # END_YOUR_CODE
 
         return black_1, white_1, black_2, white_2, reward
@@ -150,7 +156,22 @@ class Gobang(UtilGobang):
         """
 
         # BEGIN_YOUR_CODE (our solution is 8 line of code, but don't worry if you deviate from this)
-
+        s = self.array_to_hashable(self.board)
+        if random.random() < eps or s not in self.Q:
+            # 随机选择一个动作
+            x, y = random.choice(self.action_space)
+            action = (1, x, y)
+        else:
+            # 从已记录的状态-动作对中选择 q 值最大的动作，注意需限制动作必须在 self.action_space 内
+            valid_actions = [(a, q) for a, q in self.Q[s].items() if (a[1], a[2]) in self.action_space]
+            if valid_actions:
+                action = max(valid_actions, key=lambda item: item[1])[0]
+            else:
+                # 如果所有记录的动作都不可选，则随机选择
+                x, y = random.choice(self.action_space)
+                action = (1, x, y)
+        # 移除已选择动作的位置
+        self.action_space.remove((action[1], action[2]))
         # END_YOUR_CODE
         return action, self.sample_noise()
 
@@ -174,5 +195,19 @@ class Gobang(UtilGobang):
         alpha = alpha_0 / self.s_a_visited[(s0, action)]
 
         # BEGIN_YOUR_CODE (our solution is 18 line of code, but don't worry if you deviate from this)
-
+        # 若 s0 未出现在 Q 中，则初始化为空字典
+        if s0 not in self.Q:
+            self.Q[s0] = {}
+        # 当前状态-动作对的 Q 值，若不存在则默认为 0
+        current_q = self.Q[s0].get(action, 0.0)
+    
+        # 判断 s1 是否存在记录且有可选动作，否则取 0
+        if s1 in self.Q and self.Q[s1]:
+            max_q_next = max(self.Q[s1].values())
+        else:
+            max_q_next = 0.0
+        
+        # 使用 Q-Learning 更新公式： Q(s,a) = Q(s,a) + α * (reward + max_q_next - Q(s,a))
+        new_q = current_q + alpha * (reward + max_q_next - current_q)
+        self.Q[s0][action] = new_q
         # END_YOUR_CODE
