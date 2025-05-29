@@ -64,7 +64,7 @@ class VAE(nn.Module):
         """ x: shape (batchsize, 28, 28) labels are not used here"""
         # TODO: 2.2.4 passing the whole model, first encoder, then decoder, output all we need to cal loss
         # Hint1: all input data is [0, 1], 
-        # and input tensor's shape is [batch_size, 28, 28], 
+        # and input tensor's shape is [batch_size, 1, 28, 28], 
         # maybe you have to change the shape to [batch_size, 28 * 28] if you use MLP model using view()
         # Hint2: maybe 3 or 4 lines of code is OK!
         # x = x.view(-1, 28 * 28)
@@ -75,10 +75,10 @@ class VAE(nn.Module):
 def vae_loss(recon_x, x, mu, log_var, var=0.5):
     """ 
     Compute the loss of VAE
-    
+
     Args:
-        - recon_x: output of the Decoder, shape [batch_size, 28, 28]
-        - x: original input image, shape [batch_size, 28, 28]
+        - recon_x: output of the Decoder, shape [batch_size, 1, 28, 28]
+        - x: original input image, shape [batch_size, 1, 28, 28]
         - mu: output of encoder, represents mu_phi, shape [batch_size, latent_dim]
         - log_var: output of encoder, represents log (sigma_phi)^2, shape [batch_size, latent_dim]
         - var: variance of the decoder output, here we can set it to be a hyperparameter

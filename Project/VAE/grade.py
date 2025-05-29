@@ -11,12 +11,12 @@ from data_utils import cal_fid
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a VAE model")
 
-    parser.add_argument('--test_data_path', type=str, default="../dataset/valid/data.arrow", help="The path to the test dataset.")
+    parser.add_argument('--test_data_path', type=str, default="./dataset/valid/data.arrow", help="The path to the test dataset.")
 
     parser.add_argument('--VAEwolabel', type=bool, default=True, help="Whether to evaluate VAEwolabel")
     parser.add_argument('--VAEwolabel_output_dir', type=str, default="VAEwolabel/test", help="The path to VAEwolabel's output dir.")
 
-    parser.add_argument('--Genwithlabel', type=bool, default=True, help="Whether to evaluate Genwithlabel")
+    parser.add_argument('--Genwithlabel', type=bool, default=False, help="Whether to evaluate Genwithlabel")
     parser.add_argument('--Genwithlabel_output_dir', type=str, default="Genwithlabel/test", help="The path to Genwithlabel's output dir.")
 
     return parser.parse_args()
