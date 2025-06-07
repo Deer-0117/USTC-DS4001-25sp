@@ -24,9 +24,9 @@ $$D_{KL}(p||q) = \int_x p(x)\log \frac{p(x)}{q(x)}dx = E_{x \sim p(x)}[\log \fra
   >
   > 提示2：只需要给对数拆成两项，分别计算即可，不需要太多使用概率密度函数的表达式进行积分，而是合理利用期望和方差简化运算
 
-+ 这里我们给出高维的结论（不需要你证明，后续可能用到），假设$p(\textbf{x}) \sim \mathcal{N}(\mu_1, \Sigma_1), 1(\textbf{x}) \sim \mathcal{N}(\mu_2, \Sigma_2)$，这里的$\mu$为n维向量，$\Sigma$为n维方阵，则
++ 这里我们给出高维的结论（不需要你证明，后续可能用到），假设$p(\textbf{x}) \sim \mathcal{N}(\mu_1, \Sigma_1), q(\textbf{x}) \sim \mathcal{N}(\mu_2, \Sigma_2)$，这里的$\mu$为n维向量，$\Sigma$为n维方阵，则
 
-  $$D_{KL}(p || q) = \frac{1}{2} \log \frac{|\Sigma_2|}{|\Sigma_1|} + \frac{1}{2}tr(\Sigma_2^{-1}\Sigma_1) + (\mu_1 - \mu_2)^T\Sigma_2^{-1}(\mu_1 - \mu_2) - \frac{1}{2}n$$
+  $$D_{KL}(p || q) = \frac{1}{2} \log \frac{|\Sigma_2|}{|\Sigma_1|} + \frac{1}{2}tr(\Sigma_2^{-1}\Sigma_1) + \frac{1}{2}(\mu_1 - \mu_2)^T\Sigma_2^{-1}(\mu_1 - \mu_2) - \frac{1}{2}n$$
 
 ### 0.2 EM算法数学原理(10pt)
 
